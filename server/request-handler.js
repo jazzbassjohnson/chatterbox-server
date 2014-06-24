@@ -4,6 +4,7 @@
  * You'll have to figure out a way to export this function from
  * this file and include it in basic-server.js so that it actually works.
  * *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html. */
+var fs = require('fs');
 var exports = module.exports = {};
 exports.handleRequest = function(request, response) {
   /* the 'request' argument comes from nodes http module. It includes info about the
@@ -15,6 +16,8 @@ exports.handleRequest = function(request, response) {
   console.log("Serving request type " + request.method + " for url " + request.url);
 
   var statusCode = 200;
+  var messages = [];
+  var results = {results:[]};
 
   /* Without this line, this server wouldn't work. See the note
    * below about CORS. */
@@ -32,12 +35,31 @@ exports.handleRequest = function(request, response) {
   }
   if(request.url === '/classes/messages' && request.method === 'POST'){
     // request.url = '/classes/messages/send:'
+    // package data as an array of objects called "messages"
+    // with properties "username" and "message"
     console.log('hello');
     statusCode = 201;
     response.writeHead(statusCode, headers);
-    response.end(JSON.stringify(request.json));
+    request.on('data', function(data){
+      messages.push(data);
+      fs.writeFile('./filesystem.json', messages, function(err){
+        if(err){
+          console.log(err);
+        }else{
+          console.log("The file was saved!");
+        }
+      });
+    });
+    response.end(JSON.stringify(messages));
   }
-
+// var fs = require('fs');
+// fs.writeFile("/tmp/test", "Hey there!", function(err) {
+//     if(err) {
+//         console.log(err);
+//     } else {
+//         console.log("The file was saved!");
+//     }
+// });
 
   /* Make sure to always call response.end() - Node will not send
    * anything back to the client until you do. The string you pass to

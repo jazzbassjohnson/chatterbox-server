@@ -1,6 +1,5 @@
 // YOUR CODE HERE:
   // Our app
-  // var exports = module.exports = {};
   var app = {
     server: '127.0.0.1:3000/classes/messages',
     init: function(){
