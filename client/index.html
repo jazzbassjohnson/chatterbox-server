@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>chatterbox</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="fly_sidemenu/fly_sidemenu.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- dependencies -->
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="fly_sidemenu/jquery.fly_sidemenu.min.js"></script>
+    <!-- your scripts -->
+  </head>
+  <body>
+
+    <ul class="sidemenu" id="roomSelect">
+          <div id="roomOptions">
+            <input id="new-room">
+            <button id="submit-room">Add Room</button>
+          </div>
+    </ul>
+    <div class="container-fluid">
+      <div class="row">
+      <div class = "col-md-8 col-md-offset-2">
+        <div id="main" >
+          <h1>chatterbox <small ><span id="room-header">Main Room</span></small></h1>
+          <!-- Your HTML goes here! -->
+          <ul id="chats"></ul>
+        </div>
+        <form id="send">
+          <input id="message">
+          <button class="submit">Send</button>
+        </form>
+      </div>
+      <div class="col-md-2">
+      </div>
+      </div>
+    </div>
+    <script src="scripts/config.js"></script>
+    <script src="scripts/app.js"></script>
+  </body>
+</html>
