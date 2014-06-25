@@ -48,6 +48,7 @@
         type: 'GET',
         url: this.server,
         contentType: 'application/json',
+        data: {order: '-createdAt'},
         success: function(data){
           self.renderMessages(data.results);
           var rooms = {};

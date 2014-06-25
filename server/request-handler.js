@@ -6,6 +6,8 @@
  * *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html. */
 var fs = require('fs');
 var exports = module.exports = {};
+var body = {};
+body.results = [];
 exports.handleRequest = function(request, response) {
   /* the 'request' argument comes from nodes http module. It includes info about the
   request - such as what URL the browser is requesting. */
@@ -16,41 +18,43 @@ exports.handleRequest = function(request, response) {
   console.log("Serving request type " + request.method + " for url " + request.url);
 
   var statusCode = 200;
-  var messages = [];
-  var results = {results:[]};
 
   /* Without this line, this server wouldn't work. See the note
    * below about CORS. */
   var headers = exports.defaultCorsHeaders;
 
-  headers['Content-Type'] = "text/plain";
-
+  headers['Content-Type'] = "application/json";
+  console.log(request.url);
   /* .writeHead() tells our server what HTTP status code to send back */
   // response.writeHead(statusCode, headers);
-
-  if(request.url === '/classes/messages' && request.method === 'GET'){
-    console.log('hi');
+  if((request.url === '/classes/messages' || request.url === '/classes/room1') && request.method === 'GET'){
     response.writeHead(statusCode, headers);
-    response.end(JSON.stringify({results:[]}));
+    response.end(JSON.stringify(body));
   }
-  if(request.url === '/classes/messages' && request.method === 'POST'){
+ else if((request.url === '/classes/messages' || request.url === '/classes/room1') && request.method === 'POST'){
     // request.url = '/classes/messages/send:'
     // package data as an array of objects called "messages"
     // with properties "username" and "message"
-    console.log('hello');
     statusCode = 201;
     response.writeHead(statusCode, headers);
     request.on('data', function(data){
-      messages.push(data);
-      fs.writeFile('./filesystem.json', messages, function(err){
-        if(err){
-          console.log(err);
-        }else{
-          console.log("The file was saved!");
-        }
-      });
+      if(data !== undefined) {
+      body.results.push(JSON.parse(data));
+      }
+      // fs.writeFile('./filesystem.json', body, function(err){
+      //   if(err){
+      //     console.log(err);
+      //   }else{
+      //     console.log("The file was saved!");
+      //   }
+      // });
     });
-    response.end(JSON.stringify(messages));
+    response.end(JSON.stringify(body));
+  }else{
+    // console.log('hi');
+    statusCode = 404;
+    response.writeHead(statusCode, headers);
+    response.end();
   }
 // var fs = require('fs');
 // fs.writeFile("/tmp/test", "Hey there!", function(err) {

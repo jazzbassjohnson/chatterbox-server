@@ -1,6 +1,6 @@
 var request = require('request');
 var expect = require('../../node_modules/chai/chai').expect;
-var basicServer = require('../basic-server').server;
+// var basicServer = require('../basic-server').server;
 
 describe('Live Node Chat Server', function() {
   it('Should respond to GET requests for /log with a 200 status code', function(done) {
